@@ -1,0 +1,12 @@
+date,day ,day_of_week,city,aqi,aqi_description,precipitation,temp_hi,temp_lo,wind
+2023-7-20,0,Thursday,Minnetonka,54,Moderate,,80.6°,59°,6.7 mp/h
+2023-7-21,1,Friday,Minnetonka,62,Moderate,,80.6°,57.2°,13.4 mp/h
+2023-7-22,2,Saturday,Minnetonka,103,Unhealthy for Sensitive Groups,,84.2°,59°,6.7 mp/h
+2023-7-23,3,Sunday,Minnetonka,158,Unhealthy,,89.6°,62.6°,4.5 mp/h
+2023-7-24,4,Monday,Minnetonka,153,Unhealthy,,89.6°,62.6°,4.5 mp/h
+2023-7-25,5,Tuesday,Minnetonka,34,Good,,95°,66.2°,8.9 mp/h
+2023-7-26,6,Wednesday,Minnetonka,41,Good,,100.4°,73.4°,4.5 mp/h
+2023-7-27,7,Thursday,Minnetonka,43,Good,70%,102.2°,71.6°,11.2 mp/h
+2023-7-28,8,Friday,Minnetonka,30,Good,80%,91.4°,64.4°,11.2 mp/h
+2023-7-29,9,Saturday,Minnetonka,25,Good,,86°,59°,6.7 mp/h
+2023-7-30,10,Sunday,Minnetonka,21,Good,100%,95°,64.4°,13.4 mp/h

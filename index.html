@@ -1,0 +1,319 @@
+<!---7/29/23 RR developed this from the ground up-->
+<!--from https://website.education.wisc.edu/~swu28/d3t/concept.html-->
+<!DOCTYPE html>
+  <html>
+    <head>
+
+          <!-- some basic stuff  -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AQI Sonification</title>
+
+<!--- *********************************************************************-->
+<!---                                                                     --->
+<!---                  LOAD STYLESHEETS AND PACKAGES                      --->
+<!---                                                                     --->
+<!--- *********************************************************************-->
+<!--- note the order of my stylesheets matters-->
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="custom.css">
+
+<!--- local for OFFLINE work-->
+<!---
+  <script type="text/javascript" src="js_optional/d3.v7.js"></script>
+<script src="scrollama.js"></script>
+<script src="tone.js"></script>
+--->
+
+<!-- ONLINE-->
+<!---<script type="text/javascript" src="https://mbostock.github.com/d3/d3.js"></script>--->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://unpkg.com/scrollama"></script>
+<script src="https://unpkg.com/tone"></script>
+
+<!--- my scripts-->
+<script src="weather_chords.js"></script>
+<script src="scrollama_aqi.js"></script>
+
+    </head>
+
+<body>
+
+  <h1>The Sounds of Toxins</h1>
+  <h3><em>A Ten Day Air Quality Index Forecast<br>
+    for Minnetonka, MN from 20 July 2023</em></h3>
+  <p>by Rob Reid
+    <br>For notes on methodology see repository on GitHub 
+    <p><img width="100%" src="images/chief-sounds-of-toxins-930-620.jpg" alt="A photo of a hazy orange sky above highrise apartment buildings">   
+<p>
+  <!---<button id="btnEnableSound" onclick="initSound()">Enable Sound</button>--->
+  <br>
+Since the enactment of the Clean Air Act in 1970, the quality of air in the United States has <a href="https://gispub.epa.gov/air/trendsreport/2023/#introduction" target="_blank">improved significantly</a> overall due in large part to controls in vehicle and industrial emissions. In 2023, however, air quality issues resulting from Canadian wildfire smoke frequential made headlines in some unexpected places.
+<p>In June, Minnesota's Twin Cities <a href="https://minnesotareformer.com/2023/06/16/this-weeks-record-breaking-air-pollution-in-one-chart/" target="_blank">broke its record for Air Quality Index (AQI)</a>, an EPA-developed measure of the <a href="https://www.nytimes.com/article/air-quality-index.html#:~:text=The%20Air%20Quality%20Index%20measures,they%20are%20breathing%20each%20day" target="_blank">density of five air pollutants</a>- including ground-level ozone, particulates, carbon monoxide, nitrogen dioxide, and sulfur dioxide.
+<p>It's critical to inform the public of the risks of polluted air. Generally, risks range from mild eye and throat irritation to serious respiratory and heart issues. Minnesota's Pollution Control Agency compared the risks of their record-breaking AQI to the equivalent of smoking <a href="https://minnesotareformer.com/2023/06/16/this-weeks-record-breaking-air-pollution-in-one-chart/" target="_blank">four cigarettes over 24 hours</a>. 
+<p>As a guide, the EPA created <a href="https://www.airnow.gov/aqi/aqi-basics/" target="_blank">six color-coded categories of AQI readings</a>, ranging from "Good" (under 50) to Hazardous (over 300).
+<p>To help underscore the risks associated with each level, this article attempts to emotionally convey the risks with sound using musical chords ranging from pleasant and stable, to unstable. Click on the play button for each of the categories below to sample the sonification for each risk level.
+  
+ <h3>AQI Daily Ratings for Ozone and Particle Pollution</h3>
+	<table style="border-spacing: 90px;">
+	<thead>
+		<tr style="background: rgb(225, 235, 244);">
+      <th scope="col" style="text-align: center; vertical-align: text-top; width: 122px; padding: 15px;">Concern Level</th>
+			<th scope="col" style="text-align: center; vertical-align: text-top; width: 98px; padding: 15px;">AQI Range</th>
+			<th scope="col" style="text-align: center; vertical-align: text-top; width: 258px; padding: 15px;">Description</th>
+      <th scope="col" style="text-align: center; vertical-align: text-top; width: 50px; padding: 15px;">Hear It</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr style="background: rgb(0, 228, 0)">
+      <td id="good" style="text-align: center;"><strong>Good</strong></td>
+			<td style="text-align: center;"><strong>0 to 50</strong></td>
+			<td><strong>Air quality is satisfactory, and air pollution poses little or no risk.</strong></td>
+      <td style="text-align: center;"><button id="btnGood" onclick="playChord(aqiGood)">&#9658;</button></td>
+		</tr>
+		<tr style="background:yellow;">
+			<td id="mod" style="text-align: center;"><strong>Moderate</strong></td>
+			<td style="text-align: center;"><strong>51 to 100</strong></td>
+			<td><strong>Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.</strong></td>
+      <td style="text-align: center;"><button id="btnModerate" onclick="playChord(aqiModerate)">&#9658;</button></td>
+		</tr>
+		<tr style="background: rgb(255, 126, 0);color:white;">
+			<td id="sens" style="text-align: center;"><strong>Unhealthy for Sensitive Groups</strong></td>
+			<td style="text-align: center;"><strong>101 to 150</strong></td>
+			<td><strong>Members of sensitive groups may experience health effects. The general public is less likely to be affected.</strong></td>
+      <td style="text-align: center;"><button id="btnUnhealthySensitive" onclick="playChord(aqiUnhealthySensitive)">&#9658;</button></td>
+		</tr>
+		<tr style="background:red;color:white;">
+			<td id="unh" style="text-align: center; "><strong>Unhealthy</strong></td>
+			<td style="text-align: center; "><strong>151 to 200</strong></td>
+			<td><strong>Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</strong></td>
+      <td style="text-align: center;"><button id="btnUnhealthy" onclick="playChord(aqiUnhealthy)">&#9658;</button></td>
+		</tr>
+		<tr style="background: rgb(143, 63, 151);color:white;">
+			<td id="vunh" style="text-align: center; "><strong>Very Unhealthy</strong></td>
+			<td style="text-align: center; "><strong>201 to 300</strong></td>
+			<td><strong>Health alert: The risk of health effects is increased for everyone.</strong></td>
+      <td style="text-align: center;"><button id="btnVeryUnhealthy" onclick="playChord(aqiVeryUnhealthy)">&#9658;</button></td>
+		</tr>
+		<tr style="background: rgb(126, 0, 35 );color:white;">
+			<td id="haz" style="text-align: center; "><strong>Hazardous</strong></td>
+			<td style="text-align: center; "><strong>301 and higher</strong></td>
+			<td><strong>Health warning of emergency conditions: everyone is more likely to be affected.</strong></td>
+      <td style="text-align: center;"><button id="btnHazardous" onclick="playChord(aqiHazardous)">&#9658;</button></td>
+		</tr>
+	</tbody>
+</table>
+<p>Source: <a href="https://www.airnow.gov/aqi/aqi-basics/" target="_blank">U.S. Environmental Protection Agency, Office of Air Quality Planning and Standards</a>, except for auditory rendering produced by Rob Reid.
+ 
+<!---**********************************************************************-->
+<!---                                                                      -->
+<!---             SCROLLAMA FORECAST                                       --> 
+<!---                                                                      -->
+<!---**********************************************************************-->
+<h3>A Closer Look at Minnetonka</h3>
+<p>Data provided by <a href="https://www.iqair.com/us/usa/new-york/new-york-city" target="_blank">IQ Air</a>, a free worldwide air quality information platform, ranked Minnetonka Minnesota amongst the ten worst U.s cities for air quality on July 24. 
+<p>Scroll down to queue up the <b>Toxic Pollutant Interpretive Orchestra</b>, then keep scrolling to hear their instrumental ten day AQI forecast for Minnetonka.</p>
+      <div id="scroll-content">
+        <div id="my-svg-chart"></div>
+        <div id="step_display">
+          <!---musicians arrive on the scene-->
+          <!-- <div class="step" id="step">
+            <span class="step_day"></span>
+            <span class="step_aqi"></span>
+            <span class="step_description"></span>
+          </div> -->
+          <div class="step"><!--day 0-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 1-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 2-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 3-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 4-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 5-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 6-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 7-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 8-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 9-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          <div class="step"><!--day 10-->
+            <div class="step_day"></div>
+            <div class="step_aqi"></div>
+            <div class="step_description"></div>
+          </div>
+          
+
+
+        </div>
+      </div>
+<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;
+
+
+<!---*************************-->
+<!-- READ AND LOOK AT THE DATA-->
+<!---*************************-->
+<script type="text/javascript">
+
+// d3.csv("data/circle-data.csv") 
+d3.csv("data/aqi-minnetonka-2023-07-20.csv")
+.then(aqiData=> {
+
+console.log(aqiData);
+//console.log(circleDataLocal);
+//Select the div element
+
+
+
+
+/*
+CHANGE SCROLLAMA TEXT
+NEW SCHOOL WAY THAT ONLY SORTA ROCKS
+*/
+//WARNING- I think putting comments/line breaks in the middle of D3 code can break chained commands?!!
+
+selectExample = d3.select("#step_display");
+    //We'll select all the DIV elements from within the selected <div id =text> element
+    selectExample.selectAll(".step")
+      .data(aqiData)
+      // .text(function(d){
+      //   strAQIReading = d.date +
+      //   " AQI:" + d.aqi
+      //   return strAQIReading
+      //   })
+        .style("color", function(d){
+          if (d.aqi < 51) return 'white'
+          else if (d.aqi < 151) return 'black'
+          else if (d.aqi < 301) return 'white'
+        })
+        .style("background-color", function(d){
+          if (d.aqi < 51) return 'green'
+          else if (d.aqi < 101) return 'yellow'
+          else if (d.aqi < 151) return 'orange'
+          else if (d.aqi < 201) return 'red'
+          else if (d.aqi < 251) return 'purple'
+          else if (d.aqi < 301) return 'maroon'
+        });
+
+selectExample.selectAll(".step_day")
+      .data(aqiData)
+      .text(function(d){
+        let date_display = d.day_of_week + ', ' + d.date
+        return date_display})
+        .style("text-align","center")
+        .style("font-size","36px")
+      .style("font-weight","bold");
+
+selectExample.selectAll(".step_aqi")
+      .data(aqiData)
+      .text(function(d){
+        return d.aqi})
+      .style("text-align","center")
+      .style("font-size","200px")
+      .style("font-weight","bold");
+
+selectExample.selectAll(".step_description")
+      .data(aqiData)
+      .text(function(d){
+        return d.aqi_description})
+      .style("text-align","center")
+      .style("font-size","45px")
+      .style("font-weight","bold");
+
+
+
+
+
+
+
+
+
+/*
+OLD SCHOOL WAY THAT ONLY SORTA WORKED...CHANGE SCROLLAMA TEXT
+*/
+// selectExample = d3.select("#step_display");
+//     //We'll select all the DIV elements from within the selected <div id =text> element
+//     selectExample.selectAll(".step")
+//       .data(aqiData)
+//       .text(function(d){
+//         strAQIReading = d.date +
+//         " AQI:" + d.aqi
+//         return strAQIReading
+//         })
+//         .style("color", function(d){
+//           if (d.aqi < 51) return 'white'
+//           else if (d.aqi < 151) return 'black'
+//           else if (d.aqi < 301) return 'white'
+//         })
+//         .style("background-color", function(d){
+//           if (d.aqi < 51) return 'green'
+//           else if (d.aqi < 101) return 'yellow'
+//           else if (d.aqi < 151) return 'orange'
+//           else if (d.aqi < 201) return 'red'
+//           else if (d.aqi < 251) return 'purple'
+//           else if (d.aqi < 301) return 'maroon'
+//         });
+
+      // selectExample.selectAll(".step_day")
+      // .data(aqiData)
+      // .text(function(d){
+      //   strAQIReading = "DAY OF WEEK"
+      //   return strAQIReading})
+      // .style("font-weight","bold")
+      // .style("font-size","36px");
+
+      // selectExample.selectAll(".step_aqi")
+      // .data(aqiData)
+      // .text(function(d){
+      //   return d.aqi})
+      // .style("font-size","200px")
+      //   ;
+
+
+
+
+
+
+
+//end of AQI data input  
+      })
+</script>
+    </body>
+  </html>
+		

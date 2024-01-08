@@ -9,14 +9,14 @@ My approach is based on the following presumptions:
 " target="_blank">lack of formal instruction on how to interpret sonifications</a>.
 <li>Sonification has some <a href="https://open.spotify.com/episode/6FgEpVFqtecHZS9Z0Sj8r0?si=6ReoipyKSDW0RpwXMFDpkw
 " target="_blank">proven analytical use cases</a> and <a href="https://www.loudnumbers.net/" target="_blank">artistic uses</a> but might most effectively be tailored to convey data through eliciting an emotional response
-<li>While existing data sonficiation techniques often rely on rhythm, tempo, and pitch of individual tones to convey data, a "time series" presentation of data could encourage passivity on the part of the listener. A single chord, in contrast, which conveys all of its information in one instant- making it potentially useful for conveying data interactively.
+<li>While existing data sonficiation techniques often rely on rhythm, tempo, and pitch of individual tones to convey data, a "time series" presentation of data could encourage passivity on the part of the listener. My personal conviction is that a <strong>single chord, by nature conveying all of its "information" in a single instant, is the best means for conveying data interactively</strong> via the harmonic tension between chord tones.
 <li>Emotional response to music can be affected by <a href="Single chords convey distinct emotional qualities to both naïve and expert listeners - Imre Lahdelma, Tuomas Eerola, 2016 " target="_blank">vertical harmony</a>, i.e. the relation between multiple notes played at the same time within a chord. Because different chords convey different levels of tension or stability, they might meaningfully be ranked as ordinal categories despite some intrinsic factors that might influence emotional connection.
 </ol> 
 
 Here's my story, [The Sounds of Toxins](https://reliablerascal.github.io/sounds-of-toxins/), as published on GitHub.
 
 ## Key Findings and Data Sources
-This project focused on data expression, rather than data analysis. I simply acquired a ten day AQI forecast for Minnetonka, MN from aqiair.com. I chose this city because it ranked in the worst ten U.S. cities for air quality on July 24, 2023.
+This project focused on data expression, rather than data analysis. I simply acquired a ten day AQI forecast for Minnetonka, MN from aqiair.com. I chose this city because it ranked amongst the worst ten U.S. cities for air quality on July 24, 2023, AND showed signficant day-to-day variation in air quality.
 <!---<ul>
 <li>
 </ul>--->
@@ -36,7 +36,7 @@ My data interpretation process involved the following general steps:
 * Reviewed these chords with classmates and teaching assistants in an attempt to establish something approaching objective ordinality of the chords.
 
 ## Data Quirks and Other E-Varmints Standing in My Righteous Path
-My attempt to establish an agreed-upon ordinality of chord moods might have seemed successful, but an exception to the pattern needs further exploration. One listener, a formally trained musician who likes "shoegaze emo" music, rated a diminished chord as more agreeable than chords with less tension.
+My attempt to establish an <strong>agreed-upon ordinality of chord moods</strong> might have seemed successful, but an exception to the pattern needs further exploration. One listener, a formally trained musician who likes "shoegaze emo" music, rated a diminished chord as more agreeable than chords with less tension.
 
 ## What I Learned
 This project is a very basic prototype for a concept I may like to explore further. Technically, I learned the following:
